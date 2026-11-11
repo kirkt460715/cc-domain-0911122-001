@@ -1,0 +1,141 @@
+{
+  "issuers": [
+    {
+      "issuer": "north",
+      "display_name": "Synthetic North"
+    },
+    {
+      "issuer": "south",
+      "display_name": "Synthetic South"
+    }
+  ],
+  "messages": [
+    {
+      "version": 1,
+      "event_id": "north:event2",
+      "issuer": "north",
+      "sequence": 2,
+      "asset_id": "asset1",
+      "revision": 2,
+      "operation": "suspend",
+      "effective_at": "2026-11-02T00:00:00Z",
+      "payload": {
+        "reason": "Synthetic operator action"
+      }
+    },
+    {
+      "version": 1,
+      "event_id": "north:event1",
+      "issuer": "north",
+      "sequence": 1,
+      "asset_id": "asset1",
+      "revision": 1,
+      "operation": "register",
+      "effective_at": "2026-11-01T00:00:00Z",
+      "payload": {
+        "title": "Synthetic maintenance dataset",
+        "holder": "holder1",
+        "dataset_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "scope": {
+          "purposes": [
+            "research",
+            "repair"
+          ],
+          "regions": [
+            "CN"
+          ],
+          "rights": [
+            "hold",
+            "process"
+          ],
+          "expires_at": "2027-11-01T00:00:00Z"
+        },
+        "evidence": [
+          {
+            "kind": "source_agreement",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        ]
+      }
+    },
+    {
+      "version": 1,
+      "event_id": "north:event1",
+      "issuer": "north",
+      "sequence": 1,
+      "asset_id": "asset1",
+      "revision": 1,
+      "operation": "register",
+      "effective_at": "2026-11-01T00:00:00Z",
+      "payload": {
+        "title": "Synthetic maintenance dataset",
+        "holder": "holder1",
+        "dataset_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "scope": {
+          "purposes": [
+            "research",
+            "repair"
+          ],
+          "regions": [
+            "CN"
+          ],
+          "rights": [
+            "hold",
+            "process"
+          ],
+          "expires_at": "2027-11-01T00:00:00Z"
+        },
+        "evidence": [
+          {
+            "kind": "source_agreement",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        ]
+      }
+    },
+    {
+      "version": 1,
+      "event_id": "south:event1",
+      "issuer": "south",
+      "sequence": 1,
+      "asset_id": "asset1",
+      "revision": 1,
+      "operation": "register",
+      "effective_at": "2026-11-01T00:00:00Z",
+      "payload": {
+        "title": "Synthetic maintenance dataset",
+        "holder": "holder2",
+        "dataset_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "scope": {
+          "purposes": [
+            "research",
+            "repair"
+          ],
+          "regions": [
+            "CN"
+          ],
+          "rights": [
+            "hold",
+            "process"
+          ],
+          "expires_at": "2027-11-01T00:00:00Z"
+        },
+        "evidence": [
+          {
+            "kind": "source_agreement",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          }
+        ]
+      }
+    }
+  ],
+  "expected": {
+    "issuers": 2,
+    "assets": 2,
+    "events": 3,
+    "states": {
+      "active": 1,
+      "suspended": 1
+    }
+  }
+}
