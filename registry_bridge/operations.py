@@ -2,6 +2,7 @@ from registry_bridge.errors import InvalidMessage
 from registry_bridge.feeds import bundle
 from registry_bridge.feeds.contracts import ContractGate
 from registry_bridge.reconcile import inspection, invariants
+from registry_bridge.reconcile.backfill import BackfillManager
 from registry_bridge.reconcile.worker import RecoveryQueue
 from registry_bridge.query import knowledge
 
@@ -11,6 +12,7 @@ class Operations:
         self.store = store
         self.recovery = RecoveryQueue(store)
         self.contracts = ContractGate(store)
+        self.backfill = BackfillManager(store)
         from registry_bridge.query.subscriptions import Subscriptions
         self.subscriptions = Subscriptions(store)
 
@@ -41,6 +43,11 @@ class Operations:
             'contract.configure': (self.contracts.configure, {'issuer', 'revision', 'allowed_operations', 'required_evidence', 'allowed_regions'}, {'max_gap'}),
             'contract.receive': (self.contracts.receive, {'value'}, set()),
             'contract.rejections': (self.contracts.rejections, {'issuer'}, {'after', 'limit'}),
+            'backfill.plan': (self.backfill.plan, {'issuer', 'base_url'}, {'run_id', 'request_budget', 'segment_width', 'actor'}),
+            'backfill.execute': (self.backfill.execute, {'run_id'}, {'actor'}),
+            'backfill.status': (self.backfill.status, {'run_id'}, set()),
+            'backfill.list': (self.backfill.list_runs, set(), {'limit'}),
+            'backfill.extend_budget': (self.backfill.extend_budget, {'run_id', 'request_budget'}, {'actor'}),
         }
         if operation in definitions:
             function, required, optional = definitions[operation]

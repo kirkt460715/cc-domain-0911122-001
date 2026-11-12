@@ -48,6 +48,10 @@ def parser():
     backup.add_argument('path')
     commands.add_parser('check')
     commands.add_parser('rebuild')
+    backfill = commands.add_parser('backfill')
+    backfill.add_argument('action', choices=('plan', 'execute', 'status', 'list', 'extend-budget'))
+    backfill.add_argument('--json', default='{}')
+    backfill.add_argument('--input')
     demo = commands.add_parser('demo')
     demo.add_argument('--fixture', required=True)
     return result
@@ -90,6 +94,9 @@ def dispatch(store, args):
         return store.backup(args.path)
     if args.command == 'check':
         return service.call('system.check')
+    if args.command == 'backfill':
+        parameters = read_json(args.input) if args.input else decode_json(args.json)
+        return service.call('backfill.' + args.action.replace('-', '_'), parameters)
     if args.command == 'rebuild':
         return service.call('system.rebuild')
     if args.command == 'demo':

@@ -20,6 +20,14 @@ python3 -m registry_bridge --db registry.sqlite3 import feed.ndjson --source nor
 python3 -m registry_bridge --db registry.sqlite3 call system.check
 python3 -m unittest discover -s tests -v
 python3 -m compileall -q registry_bridge
+## 区间补采
+交换方提供按序号区间的摘要与事件包接口（见 docs/来源协议.md）。补采先冻结一轮 epoch/revision/ceiling，只下载摘要不同的区间，冲突时保留双方不可变证据并停止该区间：
+python3 -m registry_bridge --db registry.sqlite3 backfill plan --json '{"issuer":"north","base_url":"http://127.0.0.1:8765","segment_width":8,"request_budget":100}'
+python3 -m registry_bridge --db registry.sqlite3 backfill execute --json '{"run_id":"..."}'
+python3 -m registry_bridge --db registry.sqlite3 backfill status --json '{"run_id":"..."}'
+python3 -m registry_bridge --db registry.sqlite3 backfill list --json '{}'
+python3 -m registry_bridge --db registry.sqlite3 backfill extend-budget --json '{"run_id":"...","request_budget":200}'
+也可通过 call backfill.plan / backfill.execute / backfill.status / backfill.list / backfill.extend_budget 调用。端到端演示：python3 -m lab.backfill_demo。
 
 ## 本地来源
 
